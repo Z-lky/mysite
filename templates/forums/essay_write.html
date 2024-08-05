@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}编辑{% endblock %}
+
+{% block style %}
+    <style>
+        .form-container {
+            position: relative;
+            top: 30%;
+            left: 30%;
+            margin-bottom: 100px;
+            background: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+            padding: 20px;
+            border-radius: 10px; /* 圆角边框 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            width: 600px; /* 容器宽度 */
+            heigth: 400px; /* 容器高度 */
+            overflow: hidden; /* 防止内容溢出 */
+        }
+
+        .form-container .layui-form-label h1,
+        .form-container .layui-form-label h2 {
+            margin: 0; /* 移除标题默认的外边距 */
+            font-size: 18px; /* 标题字体大小 */
+            color: #333; /* 标题颜色 */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="guess-like" style="background: url('/static/images/luntan.jpg') no-repeat no-repeat center center fixed; background-size: cover;">
+        <div class="form-container">
+            <form class="layui-form" action="/forum/edit_over/" lay-filter="example" method="post">{% csrf_token %}
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><h1> 标题</h1></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label"><h2> 内容</h2></label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入您的看法~" class="layui-textarea" name="content" lay-verify="content"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1"> 立即发布</button>
+                        <button type="reset" class="layui-btn layui-btn-primary"> 重写</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+    //校验内容非空，如果是空的就弹出提示框,内容不能为空，否则就弹出提示框
+        layui.use(['form', 'jquery'], function () {
+            var form = layui.form;
+            var $ = layui.jquery;
+            form.verify({
+                title: function (value) {
+                    if (value.length == 0) {
+                        return '标题不能为空';
+                    }
+                },
+                content: function (value) {
+                    if (value.length == 0) {
+                        return '内容不能为空';
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

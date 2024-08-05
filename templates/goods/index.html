@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}如梦令{% endblock %}
+
+{% block style %}
+    <style>
+        /* styles.css */
+        .floating-ad {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 将广告的中心移动到视口的中心 */
+            width: 300px; /* 你可以根据需要调整宽度 */
+            height: 250px; /* 你可以根据需要调整高度 */
+            padding: 20px;
+            background-color: #f1f1f1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* 确保悬浮广告在其他内容之上 */
+            display: none; /* 初始隐藏 */
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #f44336;
+        }
+
+        .ad-content {
+            margin-top: 10px;
+        }
+
+        .animated-image {
+            width: 100%; /* 或者使用具体的像素值，但这里使用百分比以适应容器 */
+            /* transition 属性在这个场景下不是必需的，因为我们使用 @keyframes 动画 */
+            animation: zoomIn 1s infinite; /* 应用动画，设置持续时间为2秒，并无限次重复 */
+        }
+
+        @keyframes zoomIn {
+            0% {
+                transform: scale(0.1); /* 动画开始时，图片缩小到原始尺寸的一半 */
+            }
+            100% {
+                transform: scale(1); /* 动画结束时，图片恢复到原始尺寸 */
+            }
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        {#        搜索框部分#}
+        <div class="ul-nav3">
+            <div class="logo">
+                <div class="logo-img">
+                    <img src="{% static 'images/logo1.jpg' %}" style="width: 80%;height: 80px;" alt="logo">
+                </div>
+                <div class="logo-text">
+                    Like A Dream
+                </div>
+            </div>
+            <div class="search">
+                <div class="search-input">
+                    <form action="/users/search_fuc/" method="post" class="define-form">
+                        {% csrf_token %}
+                        <input type="text" id="input-text" name="q" placeholder="搜索你想要的宝贝...">
+                        <button type="submit" class="search-btn">搜索</button>
+                    </form>
+                </div>
+                <div class="search-hot" lay-bar="disabled">
+                    <ul class="layui-nav layui-bg-gray" lay-bar="disabled">
+                        <li class="layui-nav-item">热门搜索：</li>
+                        <li class="layui-nav-item"><a href="/category_detail/9/">马面裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/4/">战国袍</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/1/">襦裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/2/">袄裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/10/">旗袍</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {#        轮播图部分#}
+        <div class="carousel-line">
+            <div class="carousel-zoning">
+                {% for dynasty, categories in categories_by_dynasty.items %}
+                    <div>
+                        <h3 style="color: #16baaa; font-size: 16px;">【{{ dynasty.dname }}】</h3>
+                        <ul class="layui-nav layui-bg-gray" lay-bar="disabled">
+                            {% for category in categories %}
+                                <li class="layui-nav-item" style="line-height: 35px;">
+                                    <a href="/category_detail/{{ category.id }}/">{{ category.cname }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="carousel-img">
+                <div class="layui-carousel" id="ID-carousel-demo-1">
+                    <div carousel-item>
+                        <div class="carousel-item-img"><img src="{% static 'images/1.jpg' %} "></div>
+                        <div class="carousel-item-img"><img src="{% static 'images/2.jpg' %} "></div>
+                        <div class="carousel-item-img"><img src="{% static 'images/3.jpg' %} "></div>
+                        <div class="carousel-item-img"><img src="{% static 'images/4.jpg' %} "></div>
+                        <div class="carousel-item-img"><img src="{% static 'images/5.jpg' %} "></div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-buying">
+                <div class="buying-title">如梦令</div>
+                <div class="buying-content">定时开枪</div>
+                <div class="buying-content">买手砍价</div>
+                <div class="buying-content">意见收集</div>
+                <div class="buying-content">至尊VIP专享</div>
+            </div>
+        </div>
+        {#        猜你喜欢#}
+        <div class="guess-like">
+            <div class="guess-like-title">
+                <div class="title-text">新品推荐</div>
+                {% for goods in goods_list %}
+                    <div class="title-line-item">
+                        <a href="/goods_detail/{{ goods.id }}/">
+                            <div class="title-line-item-img">
+                                <img src="/{{ goods.gimage }}" alt="商品图">
+                            </div>
+                            <div class="title-line-item-text">
+                                <p class="product-name">{{ goods.gname }}</p>
+                                <p class="product-price">到手价：<span
+                                        style="color: red;font-size: 25px;font-weight: bold;">￥{{ goods.gprice }}</span>
+                                </p>
+                                <span style="border: 1px solid #fff;color: red;background-color: pink;border-radius: 5px;">{{ goods.gspan }}</span>
+                                <button class="buy-button">立即购买</button>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {#    广告#}
+    <div id="floatingAd" class="floating-ad">
+        <span class="close-btn">&times;</span>
+        <div href="#" class="ad-content">
+            <a href="#"><img src="{% static 'images/ad.jpg' %}" alt="广告图" style="height: 200px;width: 290px;"
+                             class="animated-image"></a>
+            <h2 style="text-align: center;color: #16b777;">欢迎来到我们的商城！</h2>
+            <p style="text-align: center;color: #16b777;">享受限时优惠，快来选购吧！</p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        layui.use(function () {
+            var carousel = layui.carousel;
+            // 渲染 - 常规轮播
+            carousel.render({
+                elem: '#ID-carousel-demo-1',
+                width: 'auto',
+                height: '280px',
+            });
+        });
+        // script.js  
+        document.addEventListener("DOMContentLoaded", function () {
+            {#// 显示悬浮广告  #}
+            {#var floatingAd = document.getElementById("floatingAd");#}
+            {#floatingAd.style.display = "block";#}
+            // 检查localStorage中是否已经存储了'seenFloatingAd'的值  
+            if (!localStorage.getItem('seenFloatingAd')) {
+                // 如果没有，则显示广告  
+                var floatingAd = document.getElementById("floatingAd");
+                floatingAd.style.display = "block";
+
+                // 同时，在localStorage中设置'seenFloatingAd'的值，表示用户已经看过广告  
+                localStorage.setItem('seenFloatingAd', 'true');
+            }
+            // 处理关闭按钮的点击事件  
+            var closeBtn = document.querySelector(".close-btn");
+            closeBtn.addEventListener("click", function () {
+                floatingAd.style.display = "none";
+            });
+        });
+    </script>
+{% endblock %}

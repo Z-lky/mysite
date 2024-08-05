@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% block title %}古装详情页{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/css/detail.css">
+    <link rel="stylesheet" href="/static/css/index_test.css">
+    <style>
+        .header-span {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #16b777;
+        }
+
+        .header-span span {
+            margin-left: 100px;
+            color: #fff;
+        }
+
+        /* 基本的容器样式，确保所有评论都在一个清晰的区域内 */
+        .essay-container {
+            height: auto;
+            margin: 20px auto; /* 上下20px外边距，左右自动居中 */
+            padding: 10px; /* 内边距 */
+            background-color: #f9f9f9; /* 背景色，可根据需要调整 */
+            border: 1px solid #ddd; /* 边框，增加层次感 */
+            border-radius: 8px; /* 边框圆角 */
+        }
+
+        /* 评论卡片的样式 */
+        .essay-card {
+            margin-bottom: 20px; /* 每个评论卡片之间有间隔 */
+            padding: 15px; /* 内边距 */
+            background-color: #fff; /* 背景色 */
+            border: 1px solid #eee; /* 边框 */
+            border-radius: 5px; /* 边框圆角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 轻微的阴影效果 */
+        }
+
+        /* 作者和发布时间的样式 */
+        .essay-info {
+            color: #666; /* 字体颜色 */
+            font-size: 0.9rem; /* 字体大小 */
+            margin-bottom: 10px; /* 与内容之间的间隔 */
+        }
+
+        .author, .publish-time {
+            margin: 0; /* 移除默认的margin */
+        }
+
+        /* 评价内容的样式 */
+        .essay-content {
+            font-size: 1rem; /* 字体大小 */
+            line-height: 1.6; /* 行高，增加可读性 */
+            color: #333; /* 字体颜色 */
+        }
+
+        /* 可选的：如果你想在作者或时间旁边添加图标，可以这样做 */
+        .author::before {
+            content: "👤"; /* 使用Unicode字符作为图标 */
+            margin-right: 5px; /* 与文本之间的间隔 */
+        }
+
+        .publish-time::before {
+            content: "⏰"; /* 使用Unicode字符作为图标 */
+            margin-right: 5px; /* 与文本之间的间隔 */
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div cd="25">
+        <div class="header-span" style="height: 60px;">
+            <span class="layui-breadcrumb">
+                  <a href="/">首页</a>
+                  <a href="/category_detail/{{ goods_html.category.id }}/">{{ goods_html.category.cname }}</a>
+                  <a href="/goods_detail/{{ goods_html.id }}/"><cite>{{ goods_html.gname }}</cite></a>
+            </span>
+        </div>
+        <!-- detail-content -->
+        <div class="detail-content">
+            <div class="detail-con-left">
+                <img id="rightimg" src="/{{ goods_html.gimage }}" style="width: 350px;height: 400px;" alt="">
+            </div>
+            <div class="detail-con-right">
+                <h3>{{ goods_html.gname }}</h3>
+                <div class="price">
+                    <i>￥</i>
+                    <p>{{ goods_html.gprice }}</p>
+                </div>
+
+                <div class="line"></div>
+                <div class="color">
+                    <p class="p-item">款式：</p>
+                    <ul class="MinImgList">
+                        {#                        有待完善？？？#}
+                        <li class="MinImg  active" colorid="{{ goods_html.id }}">
+                            <img src="/{{ goods_html.gimage }}" width="30px" height="30px">
+                        </li>
+                    </ul>
+                </div>
+                <div class="size">
+                    <p class="p-item">
+                        尺码：
+                    </p>
+                    <ul class="size-list">
+                        {% for size in size_list %}
+                            <li sizeid="{{ size.id }}"
+                                class="size-item {% if forloop.first %} active {% endif %}">{{ size.sname }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="num">
+                    <p class="p-item">
+                        数量：
+                    </p>
+                    <div class="jian">-</div>
+                    <input type="number" name="" value="1">
+                    <div class="jia">+</div>
+                </div>
+                <form action="/cart/addCart/" method="post">
+                    {#                    <input name="colorid" type="hidden">#}
+                    <input name="goodsid" type="hidden" value="{{ goods_html.id }}">
+                    <input name="sizeid" type="hidden">
+                    <input name="count" type="hidden">
+                    <input name="type" value="add" type="hidden">
+                    {% csrf_token %}
+                    {#                    <input type="hidden" name="csrfmiddlewaretoken"#}
+                    {#                           value="QYciumFpuMt1tAzw4HyUsSbgralhP9ykf6fRRkLbNhqtrzI6FElzKnFZdIenh6pT">#}
+                    <button class="male" onclick="goCart()" style="background-color: #16b777;">加入购物车</button>
+                </form>
+            </div>
+            <div class="detail-con-nav">
+                <ul class="detail-nav">
+                    <li class=" nav-item "><a href="/goods_detail/{{ goods_html.id }}/">商品详情</a>
+                    </li>
+                    <li class="active nav-item"><a href="/goods_detail/{{ goods_html.id }}/comment/">商品评价</a></li>
+                </ul>
+            </div>
+             <div class="zhanshi" style="width: 100%;">
+                {% for comment in comments_list %}
+                    <div class="essay-container" style="width: 100%;">
+                        <div class="essay-card">
+                            <div class="essay-info">
+                                <p class="author">评价者：{{ comment.getName }}</p>
+                                <p class="publish-time">评价内容时间：{{ comment.time }}</p>
+                            </div>
+                            <p class="essay-content">评价时间内容：{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.MinImg').click(function () {
+            $('.MinImg').removeClass('active')
+            $(this).addClass('active')
+            $('#rightimg').attr('src', $(this).children('img').attr('src'))
+        })
+        $('.size-item').click(function () {
+            $('.size-item').removeClass('active')
+            $(this).addClass('active')
+        })
+        $('.jian').click(function () {
+
+            num_text_view = $('.num').children('input[type="number"]')
+            val = $(num_text_view).val()
+            if (val <= 1) return
+            $(num_text_view).val(val - 1)
+        })
+        $('.jia').click(function () {
+            <!--发给服务器问一下这个商品(商品+颜色+尺寸)还有没有货-->
+            num_text_view = $('.num').children('input[type="number"]')
+            val = eval($(num_text_view).val())
+            if (val >= 60) return
+            $(num_text_view).val(val + 1)
+
+        })
+        //单独购买
+        //<input type="hidden" name="colorid" value=""/>
+        function goCart() {
+
+            //<li class="MinImgactive" colorid="11"></li>
+            $('form').children('input[name="sizeid"]').val($('.size-item.active').attr('sizeid'))
+            $('form').children('input[name="count"]').val($('.num').children('input[type="number"]').val())
+
+
+        }
+    </script>
+{% endblock %}

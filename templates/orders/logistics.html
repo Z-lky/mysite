@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}物流管理{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/mygxin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/public.css' %}">
+    <link href="/static/css/orstyle.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/../../static/load/assets/css/admin.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/../../static/load/assets/css/amazeui.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/../../static/load/assets/css/personal.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/../../static/load/assets/css/addstyle.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'css/../../static/load/assets/js/jquery.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'css/../../static/load/assets/js/amazeui.js' %}"></script>
+    <style>
+        .person-info {
+            /* 设置整个div的宽度、边距、内边距和背景色 */
+            width: 100%; /* 或者指定一个具体的宽度，如300px */
+            max-width: 600px; /* 最大宽度，以适应不同屏幕尺寸 */
+            margin: 20px auto; /* 上下边距20px，左右自动居中 */
+            padding: 20px; /* 内边距 */
+            background-color: #f9f9f9; /* 浅灰色背景 */
+            border-radius: 8px; /* 圆角边框 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            font-family: Arial, sans-serif; /* 字体设置 */
+            color: #333; /* 字体颜色 */
+        }
+
+        .person-info p {
+            /* 设置段落的样式 */
+            margin-bottom: 10px; /* 段落下边距 */
+            line-height: 1.6; /* 行高，使文字看起来更舒适 */
+        }
+
+        .person-info p span {
+            /* 设置span（即标签名）的样式，使其右对齐 */
+            display: inline-block;
+            width: 80px; /* 标签名占据的宽度 */
+            margin-right: 10px; /* 与值的间距 */
+            text-align: right; /* 右对齐 */
+            font-weight: bold; /* 加粗 */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {#  <input type="hidden" name="csrfmiddlewaretoken" value="SSm6OhZlgtgLmmLi07RWmPYijzLpebaCh0pFbf57zYddklUSB4EBEks157EvG81b">#}
+    {% csrf_token %}
+    <br>
+    <div class="Bott">
+        <div class="wrapper clearfix" style="margin: 0 auto">
+            <div class="zuo fl" style="margin-left: 100px">
+                <ul>
+                    <li class="person active" style="border-bottom: #16b777 solid 5px;">
+                        <a href="/users/center/"><i class="am-icon-user"></i>个人中心</a>
+                    </li>
+                    <li class="person">
+                        <p><i class="am-icon-newspaper-o"></i>个人资料</p>
+                        <ul>
+                            <li><a href="/users/center/" style="color: #16b777;">个人信息</a></li>
+                            <li><a href="/users/editPersonal/">完善资料</a></li>
+                            <li><a href="/users/address/">地址管理</a></li>
+                            <li><a class="logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                    <li class="person">
+                        <p><i class="am-icon-balance-scale"></i>我的交易</p>
+                        <ul>
+                            <li><a href="/order/orderList/">订单管理</a></li>
+                            <li><a href="/order/logistics/" style="color: #16b777;">物流管理</a></li>
+                            <li><a href="/evaluate/my_comments/">我的评价</a></li>
+                        </ul>
+                    </li>
+                    <li class="person">
+                        <p><i class="am-icon-balance-scale"></i>我的意见</p>
+                        <ul>
+                            <li><a href="/forum/consultation/">意见管理</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="you fl">
+                {% for order in order_list %}
+                    {% if order.status == '已支付' %}
+                        <div class="order-status5">
+                            <div class="order-title">
+                                <div class="dd-num">订单编号：<a href="javascript:;">{{ order.out_trade_num }}</a></div>
+                                <span>交易号：{{ order.order_num }}</span>
+                                <!--    <em>店铺：小桔灯</em>-->
+                            </div>
+                            <div class="order-content">
+                                <div class="order-left">
+                                    {% for goods in order.orderitem_set.all %}
+                                        <ul class="item-list">
+                                            <li class="td td-item">
+                                                <div class="item-pic">
+                                                    <a href="#" class="J_MakePoint">
+                                                        <img src="/{{ goods.getGimages }}"
+                                                             class="itempic J_ItemImg">
+                                                    </a>
+                                                </div>
+                                                <div class="item-info">
+                                                    <div class="item-basic-info">
+                                                        <a href="#">
+                                                            <p>{{ goods.getGname }}</p>
+                                                            <p class="info-little">尺码：{{ goods.getGsize }}</p>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="td td-price">
+                                                <div class="item-price">
+                                                    {{ goods.getGunitprice }}
+                                                </div>
+                                            </li>
+                                            <li class="td td-number">
+                                                <div class="item-number">
+                                                    <span>×</span>{{ goods.count }}
+                                                </div>
+                                            </li>
+
+                                            <li class="td td-amount">
+                                                <div class="item-amount">
+                                                    合计：{{ goods.getGprice }}
+                                                </div>
+                                            </li>
+                                            <div class="move-right">
+                                                <li class="td td-status">
+                                                    <div class="item-status">
+                                                        <p class="Mystatus">交易成功</p>
+                                                        <p class="order-info"><a href="/order/logistics/">已付款</a></p>
+                                                    </div>
+                                                </li>
+
+                                                <li class="td td-change">
+                                                    {#                                                查看商品是否支付，未支付的订单点击按钮跳转到支付页面#}
+                                                    <div class="am-btn am-btn-danger anniu">
+                                                        <a href="/evaluate/toAccess/" id="btn-confirm">确认收货</a>
+                                                    </div>
+                                                </li>
+
+                                            </div>
+                                        </ul>
+                                        </div>
+
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.logout').click(function () {
+
+            $.ajax({
+                type: 'post',
+                url: '/users/logout/',
+                data: 'csrfmiddlewaretoken=' + $('input[name="csrfmiddlewaretoken"]').val(),
+                success: function (result) { //result是返回的json数据,从views中返回的json数据
+                    if (result.flag) {
+                        window.location = '/users/login/'
+                    }
+                }
+            })
+        })
+    </script>
+    <script>
+    </script>
+{% endblock %}

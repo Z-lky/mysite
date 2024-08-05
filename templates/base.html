@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/test.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layui.css' %}">
+    <script src="{% static 'js/layui.js' %}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/logo1.ico' %}" type="image/x-icon">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+    <script>
+        $('.logout-u').click(function () {
+            $.ajax({
+                type: 'post',
+                url: '/users/logout/',
+                data: 'csrfmiddlewaretoken=' + $('input[name="csrfmiddlewaretoken"]').val(),
+                success: function (result) { //result是返回的json数据,从views中返回的json数据
+                    if (result.flag) {
+                        window.location = '/users/login/'
+                    }
+                }
+            })
+        })
+    </script>
+    {% block style %}
+    {% endblock %}
+</head>
+<body style="display: grid;  
+    grid-template-rows: 1fr auto; /* 1fr 表示剩余空间，auto 表示固定高度 */ ">
+{#导航栏部分#}
+<header class="header">
+    <div class="ul-nav1" style="border-bottom: 1px solid #16b777;">
+        <ul class="layui-nav layui-bg-gray" lay-bar="disabled"
+            style="display: flex;flex-wrap: nowrap;list-style-type: none;padding: 0;margin: 0; ">
+            {% if suser != None %}
+                <div class="layui-nav-item"><a href="/" style="color: #16b777;">嗨，{{ suser.uname }}</a></div>
+            {% else %}
+                <li class="layui-nav-item"><a href="/users/login">亲，请登录</a></li>
+                <li class="layui-nav-item"><a href="/users/register">注册</a></li>
+               
+            {% endif %}
+            <li class="layui-nav-item"><a href="/">如梦令首页</a></li>
+             <li class="layui-nav-item"><a href="/forum/essay/">意见收集</a></li>
+        </ul>
+    </div>
+    <div class="ul-nav2" style="border-bottom: 1px solid #16b777;z-index: 999;" >
+        <ul class="layui-nav layui-bg-gray" lay-bar="disabled"
+            style="display: flex;flex-wrap: nowrap;list-style-type: none;padding: 0;margin: 0;">
+            <li class="layui-nav-item"><a href="/cart/cartList/">购物车</a></li>
+            <li class="layui-nav-item"><a href="/users/service/">客服中心</a></li>
+            <li class="layui-nav-item"><a href="/users/center/">个人中心</a></li>
+            <li class="layui-nav-item"><a href="/trend/trendList/">行业趋势</a></li>
+        </ul>
+    </div>
+</header>
+
+{#主要内容部分#}
+{% block content %}
+{% endblock %}
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-col">
+            <h4>关于我们</h4>
+            <p>
+                如梦令汉服文化平台是一家致力于推广汉服文化的平台，致力于为用户提供优质的汉服产品和服务，为汉服爱好者提供一个分享、交流、学习的平台。</p>
+        </div>
+        <div class="footer-col">
+            <h4>联系方式</h4>
+            <ul>
+                <li>电话：18569668991</li>
+                <li>邮箱：2321859991@qq.com</li>
+                <li>地址：湖南省张家界市永定区吉首大学张家界学院</li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>保障服务</h4>
+
+            <ul>
+                <li><a href="#">七天无理由退换货</a></li>
+                <li><a href="#">全国包邮</a></li>
+                <li><a href="#">货损必赔</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>服务条款</h4>
+            <ul>
+                <li><a href="#">服务条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">版权声明</a></li>
+                <li><a href="#">免责声明</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>关注我们</h4>
+            <ul>
+                <li><a href="#">新浪微博</a></li>
+                <li><a href="#">微信公众号</a></li>
+                <li><a href="#">知乎</a></li>
+                <li><a href="#">B站</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 如梦令汉服文化平台. 保留所有权利。</p>
+    </div>
+</footer>
+</body>
+{% block script %}
+{% endblock %}
+</html>

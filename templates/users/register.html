@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}注册{% endblock %}
+{% block style %}
+    <style>
+        .all {
+            width: 800px;
+            box-shadow: -10px 10px 25px rgba(210, 210, 210, 0.9);
+            margin: auto;
+            margin-top: 5%;
+            display: flex;
+            border-radius: 35px;
+            background-color: #ffffff;
+            height: 550px;
+        }
+
+        .log {
+            width: 50%;
+            margin: auto;
+        }
+
+        .reg {
+            width: 50%;
+            height: 100%;
+            margin: auto;
+            background-color: #20b2aa;
+            border-radius: 35px;
+            color: #ffffff;
+        }
+
+        .reg_1 {
+            text-align: center;
+            margin: auto;
+            margin-top: 50%;
+        }
+
+        .reg_1 h2 {
+            font-weight: 700;
+        }
+
+        .reg_1 p {
+            margin: 15px 0px 25px 0px;
+        }
+
+        .sig {
+            width: 70px;
+            height: 30px;
+            border-radius: 12px;
+            background-color: #20b2aa;
+            border-color: #fff;
+            color: #ffffff;
+        }
+
+        #tiao {
+            padding: 0em 0;
+        }
+
+        .reg_1 a {
+            color: #ffffff;
+        }
+
+        h3 {
+            font-size: 3em;
+            color: black;
+            padding-bottom: 1em;
+            margin: 0;
+            text-align: center;
+            font-family: "Marvel-Regular";
+        }
+
+        .input {
+            margin: 10px 50px;
+            width: 300px;
+            height: 70px;
+        }
+
+        span {
+            color: #999;
+            font-size: 0.85em;
+            padding-bottom: 0.2em;
+            display: block;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .ll {
+            border: 1px solid #555;
+            outline-color: #fd9f3e;
+            width: 90%;
+            font-size: 1em;
+            padding: 0.5em;
+            line-height: inherit;
+        }
+
+        .register-top-grid {
+            color: black;
+            padding-bottom: 1em;
+            margin: 0;
+            /* text-align: center; */
+            font-family: "Marvel-Regular";
+            margin: 10px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .zhuce {
+            border: none;
+            font-size: 10px;
+            color: rgb(255, 253, 253);
+            width: 80px;
+            height: 35px;
+            background-color: rgb(241, 52, 10);
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="all">
+        <div class="reg">
+            <div class="reg_1">
+                <h2>已有账号？</h2>
+                <p>请使用你的账号进行登录！</p>
+                <a href="/users/login">
+                    <button type="button" class="sig">登录</button>
+                </a>
+            </div>
+        </div>
+        <div class="log">
+            <div>
+                <div class="register" id="tiao">
+                    <form method="post" action="/users/register/" onsubmit="return register();">
+                        <div class="register-top-grid">
+                            <h3>注册新用户</h3>
+                            <div class="input">
+                                <span>用户名 <label style="color: red">* </label></span>
+                                {#                  <input type="hidden" name="csrfmiddlewaretoken" value="VLA2ETqBo6Crsy3lpPBa3z697c5ifsXNkTDB1RwnHBzTqxcV0MoPl4ASTKYoHpOm">#}
+                                {% csrf_token %}
+                                <input
+                                        class="ll"
+                                        type="text"
+                                        placeholder="请输入用户名"
+                                        v-model="name"
+                                        id="uname" name="uname"
+                                />
+                            </div>
+                            <div class="input">
+                                <span>密码<label style="color: red">* </label></span>
+                                <input
+                                        class="ll"
+                                        type="password"
+                                        placeholder="请输入密码"
+                                        v-model="password"
+                                        id="pwd" name="pwd"
+                                />
+                            </div>
+                            <div class="input">
+                                <span>确认密码<label style="color: red">* </label></span>
+                                <input
+                                        class="ll"
+                                        type="password"
+                                        placeholder="确认密码"
+                                        v-model="password"
+                                        id="confirm_pwd" name="confirm_pwd"
+                                />
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="text-center">
+                            <input
+                                    type="submit"
+                                    value="注册"
+                                    class="zhuce"
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/md5-min.js' %}"></script>
+    <script>
+        function isValidUsername(username) {
+            // 检查是否包含至少一个数字  
+            const hasDigit = /\d/.test(username);
+            // 检查是否包含至少一个字母  
+            const hasLetter = /[a-zA-Z]/.test(username);
+            // 检查是否包含至少一个特殊字符（非字母非数字）  
+            const hasSpecialChar = /[^a-zA-Z0-9]/.test(username);
+
+            // 用户名不能为空，并且必须包含数字、字母和特殊字符  
+            return username.length > 0 && hasDigit && hasLetter && hasSpecialChar;
+        }
+        
+        {#用户唯一性校验#}
+        function checkUname(username) {
+            //返回True表示用户已经被注册
+            //返回False表示用户未被注册,就可以注册
+            var flag = false;
+            $.ajax({
+                url: '/users/checkUname/',
+                type: 'GET',
+                async: false, //同步请求,默认是ture异步请求
+                data: {
+                    'uname': username,
+                },
+                success: function (result) {
+                    var flag2 = result.flag;
+                    if (flag2) {
+                        flag = true;
+                        $('#aSpan').html('该用户名已被注册');
+                    }
+                }
+            })
+            return flag;
+        }
+
+        function register() {
+            //获取输入框的值
+            var uname = $('#uname').val();
+            var pwd = $('#pwd').val();
+            var confirm_pwd = $('#confirm_pwd').val();
+
+            //校验用户名
+            if (!isValidUsername(uname)) {
+                {#$('#aSpan').text('用户名必须由含数字、字母和特殊字符三种组成');#}
+                alert('用户名必须由含数字、字母和特殊字符三种组成');
+                return false;
+            }
+            //用户唯一性校验
+            if (checkUname(uname)) {
+                return false;
+            }
+
+            if (pwd.length < 6) {
+                {#$('#pSpan').text('密码长度不能小于六位');#}
+                alert('密码长度不能小于六位');
+                return false;
+            }
+            if (pwd !== confirm_pwd) {
+                {#$('#cSpan').text('两次密码输入不一致，请重新输入');#}
+                alert('两次密码输入不一致，请重新输入');
+                return false;
+            }
+
+            hex_pwd = hex_md5(pwd);
+            $('#pwd').val(hex_pwd);
+
+            return true;
+
+        }
+
+    </script>
+{% endblock %}

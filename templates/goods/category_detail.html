@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}商品分类{% endblock %}
+{% block style %}
+    <style>
+        .header-span {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            padding: 10px;
+            border-bottom: 1px solid #16b777;
+        }
+
+        .header-span span {
+            margin-left: 100px;
+            color: #fff;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {#        搜索框部分#}
+    <div class="ul-nav3">
+        <div class="logo">
+            <div class="logo-img">
+                <img src="{% static 'images/logo1.jpg' %}" style="width: 80%;height: 80px;" alt="logo">
+            </div>
+            <div class="logo-text">
+                Like A Dream
+            </div>
+        </div>
+        <div class="search">
+            <div class="search-input">
+                    <form action="/users/search_fuc/" method="post" class="define-form">
+                       {% csrf_token %}
+                        <input type="text" id="input-text" name="q" placeholder="搜索你想要的宝贝...">
+                        <button type="submit" class="search-btn">搜索</button>
+                    </form>
+            </div>
+            <div class="search-hot" lay-bar="disabled">
+                <ul class="layui-nav layui-bg-gray" lay-bar="disabled">
+                    <li class="layui-nav-item">热门搜索：</li>
+                        <li class="layui-nav-item"><a href="/category_detail/9/">马面裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/4/">战国袍</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/1/">襦裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/2/">袄裙</a></li>
+                        <li class="layui-nav-item"><a href="/category_detail/10/">旗袍</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {#        导航部分#}
+    <div class="header-span">
+        <span class="layui-breadcrumb">
+              <a href="/">首页</a>
+              <a href="/category_detail/{{ categorys.id }}/"><cite>{{ categorys.cname }}</cite></a>
+        </span>
+    
+    </div>
+    {#        商品列表部分#}
+    <div class="guess-like">
+         {% for goods in goods_list %}
+                    <div class="title-line-item">
+                        <a href="/goods_detail/{{ goods.id }}/">
+                            <div class="title-line-item-img">
+                                <img src="/{{ goods.gimage }}" alt="商品图">
+                            </div>
+                            <div class="title-line-item-text">
+                                <p class="product-name">{{ goods.gname }}</p>
+                                <p class="product-price">到手价：<span
+                                        style="color: red;font-size: 25px;font-weight: bold;">￥{{ goods.gprice }}</span>
+                                </p>
+                                <span style="border: 1px solid #fff;color: red;background-color: pink;border-radius: 5px;">{{ goods.gspan }}</span>
+                                <button class="buy-button">立即购买</button>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+    </div>
+
+{% endblock %}

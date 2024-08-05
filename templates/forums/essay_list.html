@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}意见收集{% endblock %}
+
+{% block style %}
+    <style>
+        #writeArticleBtn {
+            position: relative;
+            top: 10px; /* 距离顶部 */
+            right: 20px; /* 距离右边 */
+            padding: 10px 20px;
+            background-color: #16b777;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #writeArticleBtn:hover {
+            background-color: #14a06d;
+        }
+
+        .essay-container {
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* 轻微的背景透明度 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            border-radius: 8px; /* 圆角边框 */
+            overflow: hidden; /* 防止内容溢出 */
+        }
+
+        .essay-card {
+            padding: 20px;
+        }
+
+        .essay-title {
+            color: #333; /* 深灰色标题 */
+            font-size: 24px; /* 标题字体大小 */
+            margin-bottom: 10px; /* 标题与信息的间距 */
+        }
+
+        .essay-info {
+            font-size: 16px; /* 信息字体大小 */
+            color: #666; /* 深灰色信息 */
+        }
+
+        .essay-info p {
+            margin: 0; /* 移除段落默认的上下边距 */
+            line-height: 1.5; /* 行高 */
+        }
+
+        .essay-content {
+            font-size: 14px; /* 内容字体大小 */
+            color: #555; /* 灰色内容 */
+            line-height: 1.6; /* 更好的阅读体验 */
+            margin-top: 15px; /* 与信息部分的间距 */
+        }
+
+        /* 如果需要为整个卡片添加边框 */
+        .essay-card {
+            border: 1px solid #ccc; /* 浅灰色边框 */
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="guess-like"
+         style="background: url('/static/images/luntan.jpg') no-repeat center center;background-size: cover;">
+
+        <div>
+            <!-- 悬浮按钮 -->
+            <a href="/forum/essay_write/">
+                <button id="writeArticleBtn">去写我的意见</button>
+            </a>
+        </div>
+
+        {% for essay in writing_list %}
+            <div class="essay-container">
+                <div class="essay-card">
+                    <h1 class="essay-title">标题：{{ essay.title }}</h1>
+                    <div class="essay-info">
+                        <p class="publish-time">发布时间：{{ essay.created_time }}</p>
+                        <p class="author">作者：{{ essay.getUname }}</p>
+                    </div>
+                    <p class="essay-content">内容：{{ essay.content }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}

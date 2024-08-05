@@ -1,0 +1,389 @@
+/*导航栏部分*/
+.header{
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    border-bottom: 1px solid #16b777;
+    overflow-y: auto;
+    z-index: 10;
+}
+.ul-nav1{
+    width: 30%;
+    left:300px;
+    position: relative;
+    float: left;
+
+}
+.ul-nav2{
+    width: 30%;
+    left:500px;
+    position: relative;
+    float: left;
+}
+/*中间内容部分*/
+.content{
+    width: 100%;
+    height: auto;
+    /*background-color: green;*/
+    border-bottom: 1px solid black;
+}
+.ul-nav3{
+    width: 100%;
+    height: 180px;
+    /*background-color: red;*/
+    border-bottom: 1px solid #16b777;
+
+}
+/*搜索logo部分*/
+.logo{
+    /*background-color: yellow;*/
+    width: 22%;
+    height: 180px;
+    float: left;
+    left:300px ;
+    position: relative;
+}
+.logo-img{
+    width: 100%;
+    height: 80px;
+    position: relative;
+    top: 30px;
+    left: 20px;
+    background-color: white;
+}
+.logo-text{
+    width: 100%;
+    height: 50px;
+    position: relative;
+    top: 30px;
+    /*background-color: pink;*/
+    font-weight: bold; /* 加粗文本 */
+    font-size: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+}
+/*搜索部分*/
+.search{
+    /*background-color: blue;*/
+    width: 40%;
+    height: 180px;
+    float: left;
+    left:350px ;
+    position: relative;
+
+}
+.search-input {
+    width: 100%;
+    height: 60px;
+    position: relative;
+    top: 30px;
+    /*background-color: white;*/
+}
+.define-form{
+    width: 95%;
+    height: 60px;
+    padding-left: 10px;
+    /*position: relative;*/
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50px;
+    border: 1px solid #16b777;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+#input-text {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    border-radius: 0 15px 15px 0;
+    flex: 1; /* Takes up all available space */
+}
+.search-btn {
+    width: 10%;
+    height: 80px;
+    padding: 10px 20px;
+    background-color: #16b777;
+    color: white;
+    border: none;
+    border-radius: 0 15px 15px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: #16b777;
+}
+.search-hot{
+    width: 97%;
+    height: 50px;
+    position: relative;
+    top: 33px;
+    font-size: 18px;
+}
+.carousel-line {
+    display: flex;
+    align-items: stretch; /* 使子元素在交叉轴（垂直方向）上拉伸以填充容器 */
+    height: 280px;
+    /*background-color: red;*/
+    border-bottom: 1px solid #16b777;
+    width: 100%;
+    padding: 0 20px; /* 如果需要，可以在容器内部添加水平间距 */
+    overflow: hidden; /* 防止子元素溢出容器（可选）*/
+}
+
+.carousel-zoning, .carousel-img, .carousel-buying {
+    height: 100%; /* 继承父元素的高度 */
+    position: relative; /* 如果需要内部定位 */
+}
+
+.carousel-zoning {
+    width: 300px; /* 自定义宽度 */
+    /* 如果需要，可以添加 margin-right 来与其他元素保持间距 */
+     margin-left: 250px;
+}
+
+.carousel-img {
+    min-width: 400px; /* 设置最小宽度 */
+    max-width: 450px; /* 设置最大宽度 */
+    flex-grow: 1; /* 允许元素增长以填充剩余空间（但不会缩小到小于 min-width）*/
+    flex-shrink: 0; /* 防止元素在容器宽度不足时缩小（可选，但在这个例子中很有用）*/
+    background-color: blueviolet;
+    /* 如果需要，可以添加 margin 来与其他元素保持间距 */
+    /* margin: 0 20px; */
+}
+.carousel-item-img{
+    width: 416px; /* 容器宽度 */
+    height: 280px; /* 容器高度 */
+    overflow: hidden; /* 如果需要隐藏超出容器的部分 */
+
+}
+.carousel-item-img img{
+    width: 100%; /* 使图片宽度适应容器 */
+    height: auto; /* 保持图片原始宽高比 */
+    /* 或者使用 object-fit 来控制图片的填充方式，但注意可能裁剪 */
+    /* object-fit: cover; */
+    /* 如果不希望裁剪，使用 contain，但可能留下空白 */
+    object-fit: contain;
+}
+
+.carousel-buying {
+    width: 300px; /* 自定义宽度 */
+    background-color: #9B9B9B;
+    /* 如果需要，可以添加 margin-left 来与其他元素保持间距 */
+     margin-right: 200px;
+}
+.buying-title{
+    width: 100%;
+    height: 35px;
+    background-color: #16b777;
+    font-size: 20px;
+    font-weight: bold; /* 加粗文本 */
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+}
+.buying-content{
+    width: 100%;
+    height: 65px;
+    background-color: white;
+    border-radius: 40px;
+    color: #16b777;
+    font-size: 18px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+}
+/*猜你喜欢*/
+.guess-like{
+    width: 100%;
+    /*height: 2330px;*/
+    height: auto;
+    padding-bottom: 20px;
+}
+.guess-like-title{
+    width: 100%;
+    height: 100px;
+
+}
+.title-text{
+    width: 300px;
+    height: 60px;
+    position: relative;
+    left: 50px;
+    top: 20px;
+    font-weight: bold; /* 加粗文本 */
+    font-size: 30px;
+    color: #16b777;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+
+}
+.title-line{
+    width: 100%;
+    /*height: 1800px;*/
+    height: 450px;
+    background-color: white;
+}
+.title-line-item{
+    width: 320px;
+    height: 450px;
+    float: left;
+    position: relative;
+    left: 110px;
+    /*padding-left: 10px;*/
+    /*background-color: deeppink;*/
+    border:1px solid #16b777;
+    border-radius:25px;
+
+}
+.title-line-item:hover{
+    /*border: #16b777 solid 1px;*/
+    /*border-radius:25px;*/
+    border:1px solid #16b777;
+}
+.title-line-item-img{
+    margin: 20px;
+    background-color: white;
+    width: auto;
+    height: 280px;
+    border:1px solid #16b777;
+}
+.title-line-item-img img{
+    width: 100%;
+    height: 100%;
+}
+.title-line-item-text{
+    width: 87%;
+    height: 120px;
+    left: 20px;
+    position: relative;
+    /*background-color: #16b777;*/
+}
+.product-price {
+    width: 100%;
+    color: red;
+    position: relative;
+}
+.product-name {
+    white-space: nowrap; /* 防止文本换行 */
+    overflow: hidden; /* 隐藏超出容器的部分 */
+    text-overflow: ellipsis; /* 超出部分用省略号表示 */
+
+}
+.buy-button {
+    width: 100%;
+    background-color: #16b777;
+    color: white; /* 添加文字颜色 */
+    padding: 10px; /* 添加内边距 */
+    border: none; /* 移除边框 */
+    cursor: pointer; /* 鼠标悬停时显示指针 */
+    text-align: center; /* 文本居中对齐 */
+    font-size: 16px; /* 可选：调整字体大小 */
+    margin-top: 10px;
+}
+.shopping-name{
+    margin: 10px;
+    width: 280px;
+    height: 35px;
+    position: relative;
+    top: 20px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold; /* 加粗文本 */
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+    background-color: #16b777;
+}
+.shopping-price{
+    margin: 10px;
+    width: 280px;
+    height: 35px;
+    position: relative;
+    top: 20px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold; /* 加粗文本 */
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5em;
+    background-color: #16b777;
+}
+footer{
+    width: 100%;
+    height: 500px;
+    background-color: #16b777;
+    position: relative;
+    bottom: 0;
+    grid-row-start: 5; /* 确保footer在网格的第5行 */
+}
+.footer {
+    background-color: #9B9B9B;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+    position: relative;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+.footer-col {
+    flex: 1 1 200px; /* 每个列最小宽度为200px */
+    margin: 10px;
+    text-align: left;
+}
+
+.footer-col h4 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 5px;
+}
+
+.footer-col a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-col a:hover {
+    text-decoration: underline;
+}
+
+.footer-col i {
+    font-size: 24px;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #222;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+/* 如果需要，可以添加更多样式来美化特定元素，如链接、按钮等 */
